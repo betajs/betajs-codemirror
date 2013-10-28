@@ -1,0 +1,52 @@
+@mixin code-mirror-circle {
+  background-color:#FFFFFF;
+  background-position:initial initial;
+  background-repeat:initial initial;
+  color:#777777;
+  display:inline-block;
+  font-size:12px;
+  height:20px;
+  right:4px;
+  top:4px;
+  line-height:20px;
+  position:absolute;
+  text-align:center;
+  opacity: 1;
+  -moz-transition: all 0.4s ease-in-out;  /* FF4+ */
+  -o-transition: all 0.4s ease-out;  /* Opera 10.5+ */
+  -webkit-transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.code-mirror-window-label {
+  @include code-mirror-circle;
+  text-align:center;
+  //padding:0 22px 0 6px;
+  padding: 0 6px 0 6px;
+  z-index:25;
+  border:1px solid #F1F1F1;
+  border-bottom-left-radius:1px;
+  border-bottom-right-radius:1px;
+  border-top-left-radius:1px;
+  border-top-right-radius:1px;
+}
+
+.code-mirror-icon-record {
+  @include code-mirror-circle;
+  content: "\f189";
+  padding: 0 6px;
+  z-index: 45;
+  cursor: pointer;
+  background: transparent;
+  font-size: 10px;
+  color: #B3B3B3;
+}
+
+.code-mirror-header {
+ position: absolute;
+ height: 30;
+ width: 100%; 
+ background: grey;
+ z-index: 30;
+}

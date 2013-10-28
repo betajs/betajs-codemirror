@@ -1,0 +1,15 @@
+{
+  "name": "betajs-codemirror",
+  "version": "0.0.1",
+  "devDependencies": {
+    "grunt": "",
+    "grunt-contrib-jshint": "",
+    "grunt-contrib-nodeunit": "",
+    "grunt-contrib-concat": "",
+    "grunt-contrib-sass": "",
+    "grunt-contrib-cssmin": "",
+    "grunt-contrib-uglify": "",
+    "grunt-contrib-clean": "",
+    "grunt-betajs-templates": "git://github.com/betajs/grunt-betajs-templates.git"
+  }
+}
