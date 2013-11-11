@@ -1,21 +1,39 @@
 /*
-  betajs-codemirror - v0.0.1 - 2013-10-28
+  betajs-codemirror - v0.0.1 - 2013-10-31
   Copyright (c) Victor Lingenthal
   MIT Software License.
 */
+/*
+ * Variables
+ */
+/*
+ * Collapsable Header
+ */
+.collapsable-header {
+  position: absolute;
+  height: 30px;
+  width: 100%;
+  background: grey;
+  z-index: 30; }
+
+.collapsable-main {
+  position: absolute;
+  width: 100%;
+  top: 30px;
+  bottom: 0px; }
+
 .code-mirror-window-label {
-  background-color: #FFFFFF;
-  background-position: initial initial;
-  background-repeat: initial initial;
-  color: #777777;
-  display: inline-block;
-  font-size: 12px;
   height: 20px;
   right: 4px;
   top: 4px;
   line-height: 20px;
-  position: absolute;
+  display: inline-block;
+  font-size: 12px;
   text-align: center;
+  background-color: #FFFFFF;
+  background-position: initial initial;
+  background-repeat: initial initial;
+  color: #777777;
   opacity: 1;
   -moz-transition: all 0.4s ease-in-out;
   /* FF4+ */
@@ -26,26 +44,32 @@
   transition: opacity 0.5s ease-in-out;
   text-align: center;
   padding: 0 6px 0 6px;
-  z-index: 25;
-  border: 1px solid #F1F1F1;
-  border-bottom-left-radius: 1px;
-  border-bottom-right-radius: 1px;
-  border-top-left-radius: 1px;
-  border-top-right-radius: 1px; }
+  border-radius: 1px;
+  border-style: solid;
+  border-color: #F1F1F1;
+  z-index: 25; }
+
+.editor-layout-boxi .icon-record {
+  position: absolute;
+  padding: 0 6px;
+  font-size: 10px;
+  z-index: 45;
+  cursor: pointer;
+  background: transparent;
+  color: gray; }
 
 .code-mirror-icon-record {
-  background-color: #FFFFFF;
-  background-position: initial initial;
-  background-repeat: initial initial;
-  color: #777777;
-  display: inline-block;
-  font-size: 12px;
   height: 20px;
   right: 4px;
   top: 4px;
   line-height: 20px;
-  position: absolute;
+  display: inline-block;
+  font-size: 12px;
   text-align: center;
+  background-color: #FFFFFF;
+  background-position: initial initial;
+  background-repeat: initial initial;
+  color: #777777;
   opacity: 1;
   -moz-transition: all 0.4s ease-in-out;
   /* FF4+ */
@@ -69,6 +93,12 @@
   background: grey;
   z-index: 30; }
 
+/*
+ * Variables
+ */
+/*
+ * Simple Codemirror
+ */
 .simple-code-mirror-main {
   position: absolute;
   top: 0px;
@@ -84,7 +114,6 @@
 .CodeMirror-foldmarker {
   color: blue;
   text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
-  font-family: arial;
   line-height: .3;
   cursor: pointer; }
 

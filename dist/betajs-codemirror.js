@@ -1,5 +1,5 @@
 /*!
-  betajs-codemirror - v0.0.1 - 2013-10-28
+  betajs-codemirror - v0.0.1 - 2013-10-31
   Copyright (c) Victor Lingenthal
   MIT Software License.
 */
