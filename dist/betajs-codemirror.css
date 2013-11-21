@@ -31,8 +31,6 @@
   font-size: 12px;
   text-align: center;
   background-color: #FFFFFF;
-  background-position: initial initial;
-  background-repeat: initial initial;
   color: #777777;
   opacity: 1;
   -moz-transition: all 0.4s ease-in-out;
@@ -67,8 +65,6 @@
   font-size: 12px;
   text-align: center;
   background-color: #FFFFFF;
-  background-position: initial initial;
-  background-repeat: initial initial;
   color: #777777;
   opacity: 1;
   -moz-transition: all 0.4s ease-in-out;
@@ -88,7 +84,7 @@
 
 .code-mirror-header {
   position: absolute;
-  height: 30;
+  height: 30px;
   width: 100%;
   background: grey;
   z-index: 30; }
