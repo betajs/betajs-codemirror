@@ -11,7 +11,7 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 		this.on("change:readonly", function (value) {
 			this.__code_mirror.setOption("readOnly", value);
 			if (value)
-				this.$(".cm-s-default").addClass("simple-code-mirror-readonly")
+				this.$(".cm-s-default").addClass("simple-code-mirror-readonly");
 			else
 				this.$(".cm-s-default").removeClass("simple-code-mirror-readonly");
 		}, this);
@@ -44,11 +44,11 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 				"Ctrl-Q" : function(cm) {
 					fold(cm, cm.getCursor());
 				},
-				"Ctrl-Space" : "__autoComplete",
+				"Ctrl-Space" : "__autoComplete"
 			},
 			foldGutter: true,
 			gutters : [this.__getGutters(),"CodeMirror-linenumbers", "CodeMirror-foldgutter"],
-			lintWith : this.__getLintWith(),
+			lintWith : this.__getLintWith()
 		});
 		this.__code_mirror.on("gutterClick", fold);
 		this.__code_mirror.setSize("100%", "100%");
