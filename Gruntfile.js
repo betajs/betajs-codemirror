@@ -24,6 +24,7 @@ module.exports = function(grunt) {
 			        'dist/templates.js',
 			        'src/views/simple_code_mirror_view/view.js',
 			        'src/views/code_mirror_view/view.js',
+			        'src/views/preview_view/view.js',
 				]
 			},
 			dist_scss: {
