@@ -1,5 +1,5 @@
 /*!
-  betajs-codemirror - v0.0.1 - 2013-12-05
+  betajs-codemirror - v0.0.1 - 2013-12-08
   Copyright (c) Victor Lingenthal
   MIT Software License.
 */
@@ -77,6 +77,8 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 	__getMode : function() {
 		if (this.__language == "html")
 			return "text/html";
+		if (this.__language == "php")
+			return "application/x-httpd-php";
 		return this.__language;
 	},
 

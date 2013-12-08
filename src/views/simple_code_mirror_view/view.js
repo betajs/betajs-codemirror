@@ -67,6 +67,8 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 	__getMode : function() {
 		if (this.__language == "html")
 			return "text/html";
+		if (this.__language == "php")
+			return "application/x-httpd-php";
 		return this.__language;
 	},
 
