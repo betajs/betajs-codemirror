@@ -15,6 +15,10 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 			else
 				this.$(".cm-s-default").removeClass("simple-code-mirror-readonly");
 		}, this);
+		this.on("show", function () {
+			if (this.isActive() && this.__code_mirror)
+				this.__code_mirror.setSize("100%", "100%");
+		}, this);
 	},
 
 	_render : function() {

@@ -1,5 +1,5 @@
 /*!
-  betajs-codemirror - v0.0.1 - 2013-12-08
+  betajs-codemirror - v0.0.1 - 2013-12-17
   Copyright (c) Victor Lingenthal
   MIT Software License.
 */
@@ -24,6 +24,10 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 				this.$(".cm-s-default").addClass("simple-code-mirror-readonly");
 			else
 				this.$(".cm-s-default").removeClass("simple-code-mirror-readonly");
+		}, this);
+		this.on("show", function () {
+			if (this.isActive() && this.__code_mirror)
+				this.__code_mirror.setSize("100%", "100%");
 		}, this);
 	},
 
@@ -177,11 +181,13 @@ BetaJS.Views.View.extend("BetaJS.Views.PreviewView", {
 
 	update: function (html_content, javascript_content, css_content, javascript_sources, css_sources) {
 		this.invalidate();
+		var self = this;
 		var iframe = this.$("iframe");
 		var inter = window.setInterval(function () {
 			var iframeDoc = iframe.get(0).contentDocument || iframe.get(0).contentWindow.document;
             if (iframeDoc.readyState == "complete") {
                 window.clearInterval(inter);
+				self.trigger("attached", iframe.get(0));
                 var $head = iframe.contents().find("head");
                 var head = $head[0];
                 var $body = iframe.contents().find("body");
@@ -196,14 +202,14 @@ BetaJS.Views.View.extend("BetaJS.Views.PreviewView", {
 						main_script();
 					};
 					head.appendChild(script);
-                }, this);
+                });
                 
                 BetaJS.Objs.iter(css_sources || [], function (source) {
 					var style = document.createElement('link');
 					style.href = source;
 					style.rel = "stylesheet";
 					head.appendChild(style);
-                }, this);
+                });
 				$body.html(html_content);
 				$body.append("<style>" + css_content + "</style>");
 				var main_script = function () {
@@ -216,6 +222,10 @@ BetaJS.Views.View.extend("BetaJS.Views.PreviewView", {
 				main_script();
 			}
 		}, 10);		
+	},
+	
+	iframeWindow: function () {
+		return this.$("iframe").get(0).contentWindow;
 	},
 	
 	_bindParent: function () {
