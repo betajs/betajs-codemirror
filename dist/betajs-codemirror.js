@@ -1,5 +1,5 @@
 /*!
-  betajs-codemirror - v0.0.1 - 2013-12-17
+  betajs-codemirror - v0.0.1 - 2014-06-08
   Copyright (c) Victor Lingenthal
   MIT Software License.
 */
@@ -12,8 +12,9 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 	_templates : {
 		"default" : BetaJS.Templates.Cached["simple-code-mirror-view-template"]
 	},
-
+	
 	constructor : function(options) {
+		options = options || {};
 		this._inherited(BetaJS.Views.SimpleCodeMirrorView, "constructor", options);
 		this._setOptionProperty(options, "content", "");
 		this._setOption(options, "language", "");
@@ -29,6 +30,18 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 			if (this.isActive() && this.__code_mirror)
 				this.__code_mirror.setSize("100%", "100%");
 		}, this);
+		if (options.auto_refresh) {
+			this._auto_destroy(new BetaJS.Timers.Timer({
+				delay: 100,
+				fire: this.refresh,
+				context: this
+			}));
+		}
+	},
+	
+	refresh: function () {
+		if (this.__code_mirror)
+			this.__code_mirror.refresh();
 	},
 
 	_render : function() {
@@ -162,6 +175,7 @@ BetaJS.Views.ListContainerView.extend("BetaJS.Views.CodeMirrorView", {
 		this.code_mirror_view = this.addChild(new BetaJS.Views.SimpleCodeMirrorView({
 			content: this.binding("content"),
 			language: language,
+			auto_refresh: options.auto_refresh,
 			readonly: this.binding("readonly"),
 			el_classes: 'simple-code-mirror-main'
 		}), {

@@ -37,6 +37,7 @@ BetaJS.Views.ListContainerView.extend("BetaJS.Views.CodeMirrorView", {
 		this.code_mirror_view = this.addChild(new BetaJS.Views.SimpleCodeMirrorView({
 			content: this.binding("content"),
 			language: language,
+			auto_refresh: options.auto_refresh,
 			readonly: this.binding("readonly"),
 			el_classes: 'simple-code-mirror-main'
 		}), {

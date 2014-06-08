@@ -2,8 +2,9 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 	_templates : {
 		"default" : BetaJS.Templates.Cached["simple-code-mirror-view-template"]
 	},
-
+	
 	constructor : function(options) {
+		options = options || {};
 		this._inherited(BetaJS.Views.SimpleCodeMirrorView, "constructor", options);
 		this._setOptionProperty(options, "content", "");
 		this._setOption(options, "language", "");
@@ -19,6 +20,18 @@ BetaJS.Views.View.extend("BetaJS.Views.SimpleCodeMirrorView", {
 			if (this.isActive() && this.__code_mirror)
 				this.__code_mirror.setSize("100%", "100%");
 		}, this);
+		if (options.auto_refresh) {
+			this._auto_destroy(new BetaJS.Timers.Timer({
+				delay: 100,
+				fire: this.refresh,
+				context: this
+			}));
+		}
+	},
+	
+	refresh: function () {
+		if (this.__code_mirror)
+			this.__code_mirror.refresh();
 	},
 
 	_render : function() {
