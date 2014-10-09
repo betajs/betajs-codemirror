@@ -1,7 +1,7 @@
 /*!
-  betajs-codemirror - v0.0.1 - 2014-06-08
-  Copyright (c) Victor Lingenthal
-  MIT Software License.
+betajs-codemirror - v1.0.0 - 2014-10-10
+Copyright (c) Victor Lingenthal
+MIT Software License.
 */
 BetaJS.Templates.Cached = BetaJS.Templates.Cached || {};
 BetaJS.Templates.Cached['preview-template'] = '  <iframe class="preview-iframe">    </iframe>  <div class="preview-overlay" style="display:none">  </div> ';

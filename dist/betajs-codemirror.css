@@ -1,9 +1,4 @@
 /*
-  betajs-codemirror - v0.0.1 - 2013-12-08
-  Copyright (c) Victor Lingenthal
-  MIT Software License.
-*/
-/*
  * Variables
  */
 /*
@@ -89,54 +84,4 @@
   background: grey;
   z-index: 30; }
 
-.preview-iframe {
-  width: 100%;
-  height: 100%; }
-
-.preview-overlay {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  z-index: 1000;
-  left: 0px;
-  top: 0px; }
-
-/*
- * Variables
- */
-/*
- * Simple Codemirror
- */
-.simple-code-mirror-main {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  width: 100%; }
-
-.simple-code-mirror-readonly {
-  background-color: gray; }
-
-.CodeMirror {
-  height: 100% !important; }
-
-.CodeMirror-foldmarker {
-  color: blue;
-  text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
-  line-height: .3;
-  cursor: pointer; }
-
-.CodeMirror-focused .cm-matchhighlight {
-  text-decoration: underline; }
-
-.CodeMirror-foldgutter {
-  width: .7em; }
-
-.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {
-  color: #555;
-  cursor: pointer; }
-
-.CodeMirror-foldgutter-open:after {
-  content: "\25BE"; }
-
-.CodeMirror-foldgutter-folded:after {
-  content: "\25B8"; }
+/*# sourceMappingURL=betajs-codemirror.css.map */

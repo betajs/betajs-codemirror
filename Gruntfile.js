@@ -1,3 +1,5 @@
+module.banner = '/*!\n<%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\nCopyright (c) <%= pkg.contributors %>\n<%= pkg.license %> Software License.\n*/\n';
+
 module.exports = function(grunt) {
 	
 	grunt.initConfig({
@@ -13,10 +15,7 @@ module.exports = function(grunt) {
 		},
 		concat : {
 			options : {
-				banner : '/*!\n'
-						+ '  <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n'
-						+ '  Copyright (c) Victor Lingenthal\n'
-						+ '  MIT Software License.\n' + '*/\n'
+				banner : module.banner
 			},
 			dist : {
 				dest : 'dist/betajs-codemirror.js',
@@ -27,21 +26,20 @@ module.exports = function(grunt) {
 			        'src/views/preview_view/view.js',
 				]
 			},
-			dist_scss: {
-				dest : 'dist/betajs-codemirror.scss',
-				src : [
-			        'src/views/*/styles.scss',
-			    ]
-			},
 		},
 		sass: {
 			dist: {
 		    	files: {
-			        'dist/betajs-codemirror.css': 'dist/betajs-codemirror.scss'
+			        'dist/betajs-codemirror.css': [
+			             'src/views/*/styles.scss',
+			        ]
 		    	}
 		    }
 		},
 		uglify : {
+			options : {
+				banner : module.banner
+			},
 			dist : {
 				files : {
 					'dist/betajs-codemirror.min.js' : [ 'dist/betajs-codemirror.js' ],
@@ -50,10 +48,7 @@ module.exports = function(grunt) {
 		},
 		cssmin: {
 			options : {
-				banner : '/*!\n'
-						+ '  <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n'
-						+ '  Copyright (c) Victor Lingenthal\n'
-						+ '  MIT Software License.\n' + '*/\n'
+				banner : module.banner
 			},
 			dist : {
 				files : {
@@ -62,12 +57,34 @@ module.exports = function(grunt) {
 			}
 		},
 		clean: [
-			"dist/templates.js",
-			"dist/betajs-codemirror.scss"
-		]
+			"dist/templates.js"
+		],
+		shell: {
+			lint: {
+		    	command: "jsl +recurse --process ./src/*.js",
+		    	options: {
+                	stdout: true,
+                	stderr: true,
+            	},
+            	src: [
+            		"src/*/*.js"
+            	]
+			},
+			cssvalidate: {
+				command: "w3c-validator.py --verbose dist/betajs-codemirror.css",
+		    	options: {
+                	stdout: true,
+                	stderr: true,
+            	},
+            	src: [
+            		"src/*/*.*css"
+            	]
+			},
+		},
 	});
 
 	grunt.loadNpmTasks('grunt-newer');
+	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-sass');	
@@ -76,6 +93,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-betajs-templates');	
 	
 
-	grunt.registerTask('default', ['newer:betajs_templates', 'newer:concat', 'newer:sass', 'newer:uglify', 'newer:cssmin']);
+	grunt.registerTask('default', ['newer:betajs_templates', 'newer:concat', 'newer:sass', 'newer:uglify', 'newer:cssmin', 'clean']);
+	grunt.registerTask('lint', ['shell:lint']);	
+	grunt.registerTask('cssvalidate', ['shell:cssvalidate']);	
+	grunt.registerTask('check', ['lint']);
 
 };

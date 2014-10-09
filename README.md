@@ -1,19 +1,13 @@
-BetaJS-Codemirror
-=================
+# betajs-codemirror 1.0.0
 
-BetaJS-Codemirror is a Codemirror Plugin for the
-BetaJS Framework (https://github.com/betajs/betajs).
+BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.
 
 
 ## Contributors
+
 - Victor Lingenthal
 
 
 ## License
-MIT Software License.
 
-Copyright (c) 2013 Victor Lingenthal
-
-
-## Credits
-CodeMirror (c) http://codemirror.net
+MIT

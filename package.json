@@ -1,14 +1,21 @@
 {
   "name": "betajs-codemirror",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
+  "homepage": "http://betajs.com",
+  "contributors": [
+  	"Victor Lingenthal"
+  ],
+  "license": "MIT",
   "devDependencies": {
     "grunt": "",
     "grunt-contrib-jshint": "",
     "grunt-contrib-nodeunit": "",
     "grunt-contrib-concat": "",
     "grunt-contrib-sass": "",
-    "grunt-contrib-cssmin": "",
     "grunt-contrib-uglify": "",
+    "grunt-shell": "",
+    "grunt-contrib-cssmin": "",
     "grunt-contrib-clean": "",
     "grunt-betajs-templates": "git://github.com/betajs/grunt-betajs-templates.git",
     "grunt-newer": ""
