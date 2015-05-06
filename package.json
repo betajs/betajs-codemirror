@@ -1,23 +1,46 @@
 {
-  "name": "betajs-codemirror",
-  "version": "1.0.0",
-  "description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
-  "homepage": "http://betajs.com",
-  "contributors": [
-  	"Victor Lingenthal"
-  ],
-  "license": "MIT",
-  "devDependencies": {
-    "grunt": "",
-    "grunt-contrib-jshint": "",
-    "grunt-contrib-nodeunit": "",
-    "grunt-contrib-concat": "",
-    "grunt-contrib-sass": "",
-    "grunt-contrib-uglify": "",
-    "grunt-shell": "",
-    "grunt-contrib-cssmin": "",
-    "grunt-contrib-clean": "",
-    "grunt-betajs-templates": "git://github.com/betajs/grunt-betajs-templates.git",
-    "grunt-newer": ""
-  }
+	"name": "betajs-codemirror",
+	"version": "1.0.0",
+	"description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
+	"homepage": "http://betajs.com",
+	"contributors": ["Oliver Friedmann", "Victor Lingenthal"],
+	"license": "MIT",
+	"devDependencies": {
+		"grunt": "",
+		"grunt-contrib-jshint": "",
+		"grunt-contrib-nodeunit": "",
+		"grunt-contrib-concat": "",
+		"grunt-contrib-uglify": "",
+		"grunt-contrib-clean": "",
+		"grunt-preprocess": "",
+		"grunt-git-revision-count": "",
+		"grunt-closure-tools": "",
+		"grunt-node-qunit": "",
+		"grunt-contrib-jshint": "",
+		"grunt-wget": "",
+		"grunt-jsdoc": "beta",
+		"grunt-shell": "",
+		"grunt-template": ""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/betajs/betajs-codemirror.git"
+	},
+	"meta": {
+		"status": "Active, In Development",
+		"weakDependencies": {
+			"betajs-scoped": "https://github.com/betajs/betajs-scoped"
+		},
+		"dependencies": {
+			"betajs": "https://github.com/betajs/betajs",
+			"betajs-browser": "https://github.com/betajs/betajs-browser",
+			"betajs-dynamics": "https://github.com/betajs/betajs-dynamics"
+		},
+		"cdn": {
+			"betajs-codemirror.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror.js",
+			"betajs-codemirror.min.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror.min.js",
+			"betajs-codemirror-noscoped.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror-noscoped.js",
+			"betajs-codemirror-noscoped.min.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror-noscoped.min.js"
+		}
+	}
 }

@@ -1,16 +1,16 @@
 <html lang="en">
 	<head>
-		<script src="assets/jquery-1.9.1.min.js"></script>
-		<script src="assets/beta.js"></script>
-		<script src="assets/beta-views.js"></script>
-		<link  href="assets/beta-views.css" rel="stylesheet" />		
-		<script src="assets/codemirror.js"></script>
-		<link  href="assets/codemirror.css" rel="stylesheet" />		
-		<script src="../dist/betajs-codemirror.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+		<script src="../vendors/beta.js"></script>
+		<script src="../vendors/beta-browser-noscoped.js"></script>
+		<script src="../vendors/betajs-dynamics-noscoped.js"></script>
+		<script src="../vendors/codemirror.js"></script>
+		<link  href="../vendors/codemirror.css" rel="stylesheet" />		
 		<link  href="../dist/betajs-codemirror.css" rel="stylesheet" />
+		<script src="../dist/betajs-codemirror.js"></script>
 	</head>
 	<body>
-		<script type="text/template" id="demo-content">
+		<ba-codemirror ba-trim ba-language='html'>
 			<div>
 				<h1>H1 None</h1>
 				<br />
@@ -18,17 +18,9 @@
 				<code style="text-decoration: underline" >Code 2</code><strong> Strong 2</strong>
 				<div style="font-size: 24px; font-family: Helvetica;">Text 2</div>
 			</div>
-		</script>
-		<div id="editor"></div>
+		</ba-codemirror>
 		<script>
-			$(document).ready(function() {
-				var view = new BetaJS.Views.CodeMirrorView({
-					el : "#editor",
-					language: "html",
-					content: $("#demo-content").html()
-				});
-				view.activate();
-			});
+			BetaJS.Dynamics.Dynamic.activate();
 		</script>
 	</body>
 </html>

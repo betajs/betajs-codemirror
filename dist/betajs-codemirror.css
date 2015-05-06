@@ -1,87 +1,30 @@
-/*
- * Variables
- */
-/*
- * Collapsable Header
- */
-.collapsable-header {
-  position: absolute;
-  height: 30px;
-  width: 100%;
-  background: grey;
-  z-index: 30; }
-
-.collapsable-main {
-  position: absolute;
-  width: 100%;
-  top: 30px;
-  bottom: 0px; }
-
-.code-mirror-window-label {
-  height: 20px;
-  right: 4px;
-  top: 4px;
-  line-height: 20px;
-  display: inline-block;
-  font-size: 12px;
-  text-align: center;
-  background-color: #FFFFFF;
-  color: #777777;
-  opacity: 1;
-  -moz-transition: all 0.4s ease-in-out;
-  /* FF4+ */
-  -o-transition: all 0.4s ease-out;
-  /* Opera 10.5+ */
-  -webkit-transition: opacity 0.5s ease-in-out;
-  -moz-transition: opacity 0.5s ease-in-out;
-  transition: opacity 0.5s ease-in-out;
-  text-align: center;
-  padding: 0 6px 0 6px;
-  border-radius: 1px;
-  border-style: solid;
-  border-color: #F1F1F1;
-  z-index: 25; }
-
-.editor-layout-boxi .icon-record {
-  position: absolute;
-  padding: 0 6px;
-  font-size: 10px;
-  z-index: 45;
-  cursor: pointer;
-  background: transparent;
-  color: gray; }
-
-.code-mirror-icon-record {
-  height: 20px;
-  right: 4px;
-  top: 4px;
-  line-height: 20px;
-  display: inline-block;
-  font-size: 12px;
-  text-align: center;
-  background-color: #FFFFFF;
-  color: #777777;
-  opacity: 1;
-  -moz-transition: all 0.4s ease-in-out;
-  /* FF4+ */
-  -o-transition: all 0.4s ease-out;
-  /* Opera 10.5+ */
-  -webkit-transition: opacity 0.5s ease-in-out;
-  -moz-transition: opacity 0.5s ease-in-out;
-  transition: opacity 0.5s ease-in-out;
-  content: "\f189";
-  padding: 0 6px;
-  z-index: 45;
-  cursor: pointer;
-  background: transparent;
-  font-size: 10px;
-  color: #B3B3B3; }
-
-.code-mirror-header {
-  position: absolute;
-  height: 30px;
-  width: 100%;
-  background: grey;
-  z-index: 30; }
-
-/*# sourceMappingURL=betajs-codemirror.css.map */
+/*!
+betajs-codemirror - v1.0.0 - 2015-05-06
+Copyright (c) Oliver Friedmann,Victor Lingenthal
+MIT Software License.
+*/
+.CodeMirror {
+	height: 100% !important;
+}
+.CodeMirror-foldmarker {
+	color: blue;
+	text-shadow: #b9f 1px 1px 2px, #b9f -1px -1px 2px, #b9f 1px -1px 2px, #b9f -1px 1px 2px;
+	line-height: .3;
+	cursor: pointer;
+}
+.CodeMirror-focused .cm-matchhighlight {
+	text-decoration: underline;
+}
+.CodeMirror-foldgutter {
+	width: .7em;
+}
+.CodeMirror-foldgutter-open, .CodeMirror-foldgutter-folded {
+	color: #555;
+	cursor: pointer;
+}
+.CodeMirror-foldgutter-open:after {
+	content: "\25BE";
+}
+.CodeMirror-foldgutter-folded:after {
+	content: "\25B8";
+}
