@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.0 - 2015-05-06
+betajs-codemirror - v1.0.0 - 2015-05-07
 Copyright (c) Oliver Friedmann,Victor Lingenthal
 MIT Software License.
 */
@@ -16,7 +16,7 @@ Scoped.binding("jquery", "global:jQuery");
 Scoped.define("module:", function () {
 	return {
 		guid: "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-		version: '14.1430943460115'
+		version: '15.1430995092596'
 	};
 });
 
@@ -47,7 +47,9 @@ Scoped.define("module:Codemirror", [
 				if (this.get("auto-refresh") !== undefined) {
 					this.auto_destroy(new Timers.Timer({
 						delay : 100,
-						fire : this.call("refresh"),
+						fire : function () {
+							this.call("refresh");
+						},
 						context : this
 					}));
 				}

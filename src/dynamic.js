@@ -25,7 +25,9 @@ Scoped.define("module:Codemirror", [
 				if (this.get("auto-refresh") !== undefined) {
 					this.auto_destroy(new Timers.Timer({
 						delay : 100,
-						fire : this.call("refresh"),
+						fire : function () {
+							this.call("refresh");
+						},
 						context : this
 					}));
 				}
