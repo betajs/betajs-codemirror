@@ -1,7 +1,7 @@
 /*!
-betajs-browser - v1.0.7 - 2015-12-05
+betajs-browser - v1.0.22 - 2016-02-06
 Copyright (c) Oliver Friedmann
-MIT Software License.
+Apache 2.0 Software License.
 */
 (function () {
 
@@ -21,10 +21,11 @@ Scoped.define("base:$", ["jquery:"], function (jquery) {
 Scoped.define("module:", function () {
 	return {
 		guid: "02450b15-9bbf-4be2-b8f6-b483bc015d06",
-		version: '52.1449326659387'
+		version: '69.1454807666949'
 	};
 });
 
+Scoped.assumeVersion("base:version", 451);
 Scoped.define("module:JQueryAjax", [
 	    "base:Net.AbstractAjax",
 	    "base:Net.AjaxException",
@@ -34,30 +35,6 @@ Scoped.define("module:JQueryAjax", [
 	], function (AbstractAjax, AjaxException, Promise, BrowserInfo, $, scoped) {
 	return AbstractAjax.extend({scoped: scoped}, function (inherited) {
 		return {
-			
-			_syncCall: function (options) {
-				var result;
-				$.ajax({
-					type: options.method,
-					async: false,
-					url: options.uri,
-					dataType: options.decodeType ? options.decodeType : null, 
-					data: options.encodeType && options.encodeType == "json" ? JSON.stringify(options.data) : options.data,
-					success: function (response) {
-						result = response;
-					},
-					error: function (jqXHR, textStatus, errorThrown) {
-						var err = "";
-						try {
-							err = JSON.parse(jqXHR.responseText);
-						} catch (e) {
-							err = JSON.parse('"' + jqXHR.responseText + '"');
-						}
-						throw new AjaxException(jqXHR.status, errorThrown, err);
-					}
-				});
-				return result;
-			},
 			
 			_asyncCall: function (options, callbacks) {
 				var promise = Promise.create();
@@ -77,7 +54,11 @@ Scoped.define("module:JQueryAjax", [
 						try {
 							err = JSON.parse(jqXHR.responseText);
 						} catch (e) {
-							err = JSON.parse('"' + jqXHR.responseText + '"');
+							try {
+								err = JSON.parse('"' + jqXHR.responseText + '"');
+							} catch (e) {
+								err = {};
+							}
 						}
 						promise.asyncError(new AjaxException(jqXHR.status, errorThrown, err));
 					}
@@ -158,7 +139,7 @@ Scoped.define("module:Apps", [
 		},
 		
 		googleIntent: function (protocol, url, appIdent) {
-			return "intent://" + uri + ";scheme=" + protocol + ";package=" + appIdent + ";end";
+			return "intent://" + url + ";scheme=" + protocol + ";package=" + appIdent + ";end";
 		}
 		
 	};
@@ -284,9 +265,18 @@ Scoped.define("module:Cookies", ["base:Objs", "base:Types"], function (Objs, Typ
 });
 
 Scoped.define("module:Dom", [
-    "base:Objs", "jquery:", "base:Types"
-], function (Objs, $, Types) {
-	return {	
+    "base:Objs",
+    "jquery:",
+    "base:Types",
+    "module:Info"
+], function (Objs, $, Types, Info) {
+	return {
+		
+		outerHTML: function (element) {
+			if (!Info.isFirefox() || Info.firefoxVersion() >= 11)
+				return element.outerHTML;
+			return $('<div>').append($(element).clone()).html();
+		},
 		
 		changeTag: function (node, name) {
 			var replacement = document.createElement(name);
@@ -508,7 +498,7 @@ Scoped.define("module:Dom", [
 				return s;
 			var temp = document.createElement("span");
 			temp.innerHTML = s;
-			s = temp.innerText;
+			s = $(temp).text();
 			if (temp.remove)
 				temp.remove();
 			return s;
@@ -517,8 +507,15 @@ Scoped.define("module:Dom", [
 	};
 });
 Scoped.define("module:DomExtend.DomExtension", [
-    "base:Class", "jquery:", "base:Objs", "base:Functions", "base:Async"                                                   
-], function (Class, jquery, Objs, Functions, Async, scoped) {
+    "base:Class",
+    "jquery:",
+    "base:Objs",
+    "base:Functions",
+    "base:Async",
+    "module:DomMutation.NodeRemoveObserver",
+    "module:DomMutation.NodeResizeObserver",
+    "jquery:"
+], function (Class, jquery, Objs, Functions, Async, NodeRemoveObserver, NodeResizeObserver, $, scoped) {
 	return Class.extend({scoped: scoped}, function (inherited) {
 		return {
 			
@@ -540,25 +537,16 @@ Scoped.define("module:DomExtend.DomExtension", [
 					this._element[method] = Functions.as_method(this[method], this);
 				}, this);
 				Async.eventually(function () {
-					var self = this;
-					$(document).on("DOMNodeRemoved." + this.cid(), function (event) {
-						if (event.target === element) {
-							self.weakDestroy();
-						}
-					});
-					$(window).on("resize." + this.cid(), function () {
-						self.recomputeBB();
-						self._notify("resized");
-					});
+					this._nodeRemoveObserver = this.auto_destroy(new NodeRemoveObserver(element));
+					this._nodeRemoveObserver.on("node-removed", this.weakDestroy, this);
+					this._nodeResizeObserver = this.auto_destroy(new NodeResizeObserver(element));
+					this._nodeResizeObserver.on("node-resized", function () {
+						this.recomputeBB();
+						this._notify("resized");
+					}, this);
 				}, this);
 				if (!this._$element.css("display") || this._$element.css("display") == "inline")
 					this._$element.css("display", "inline-block");
-			},
-			
-			destroy: function () {
-				$(window).off("." + this.cid());
-				$(document).off("." + this.cid());
-				inherited.destroy.call(this);
 			},
 			
 			domEvent: function (eventName) {
@@ -606,10 +594,15 @@ Scoped.define("module:DomExtend.DomExtension", [
 			
 			computeActualBB: function (idealBB) {
 				var width = this._$element.width();
-				if (this._$element.width() < idealBB.width && !this._element.style.width) {
+				if (this._$element.width() <= idealBB.width && !this._element.style.width) {
 					this._element.style.width = idealBB.width + "px";
 					width = this._$element.width();
-					delete this._element.style.width;
+					var current = this._$element;
+					while (current.get(0) != document) {
+						current = current.parent();
+						width = Math.min(width, current.width());
+					}
+					this._element.style.width = null;
 				}
 				return {
 					width: width,
@@ -635,6 +628,293 @@ Scoped.define("module:DomExtend.DomExtension", [
 			
 		};
 	});
+});
+
+Scoped.define("module:DomMutation.NodeRemoveObserver", [
+    "base:Classes.ConditionalInstance",
+    "base:Events.EventsMixin"
+], function (ConditionalInstance, EventsMixin, scoped) {
+	return ConditionalInstance.extend({scoped: scoped}, [EventsMixin, function (inherited) {
+		return {
+			
+			constructor: function (node) {
+				inherited.constructor.call(this);
+				this._node = node;
+			},
+			
+			_nodeRemoved: function (node) {
+				if (node !== this._node)
+					return;
+				this.trigger("node-removed");
+			}
+			
+		};
+	}]);
+});
+
+
+
+Scoped.define("module:DomMutation.MutationObserverNodeRemoveObserver", [
+	"module:DomMutation.NodeRemoveObserver",
+	"base:Objs"
+], function (Observer, Objs, scoped) {
+	return Observer.extend({scoped: scoped}, function (inherited) {
+		return {
+			
+			constructor: function (node) {
+				inherited.constructor.call(this, node);
+				var self = this;
+				this._observer = new window.MutationObserver(function (mutations) {
+					Objs.iter(mutations, function (mutation) {
+						for (var i = 0; i < mutation.removedNodes.length; ++i)
+							self._nodeRemoved(mutation.removedNodes[i]);
+					});
+				});
+				this._observer.observe(node.parentNode, {childList: true});
+			},
+			
+			destroy: function () {
+				this._observer.disconnect();
+				inherited.destroy.call(this);
+			}
+			
+		};
+	}, {
+		
+		supported: function (node) {
+			try {
+				return !!window.MutationObserver;
+			} catch (e) {
+				return false;
+			}
+		}
+		
+	});	
+});
+
+
+
+Scoped.define("module:DomMutation.DOMNodeRemovedNodeRemoveObserver", [
+	"module:DomMutation.NodeRemoveObserver",
+	"module:Info",
+	"jquery:"
+], function (Observer, Info, $, scoped) {
+	return Observer.extend({scoped: scoped}, function (inherited) {
+		return {
+			
+			constructor: function (node) {
+				inherited.constructor.call(this, node);
+				var self = this;
+				$(document).on("DOMNodeRemoved." + this.cid(), function (event) {
+					self._nodeRemoved(event.target);
+				});
+			},
+			
+			destroy: function () {
+				$(document).off("DOMNodeRemoved." + this.cid());
+				inherited.destroy.call(this);
+			}
+			
+		};
+	}, {
+		
+		supported: function (node) {
+			return !Info.isInternetExplorer() || Info.internetExplorerVersion() >= 9;
+		}
+		
+	});	
+
+});
+
+
+
+Scoped.define("module:DomMutation.TimerNodeRemoveObserver", [
+  	"module:DomMutation.NodeRemoveObserver",
+  	"base:Timers.Timer",
+  	"jquery:"
+], function (Observer, Timer, $, scoped) {
+	return Observer.extend({scoped: scoped}, function (inherited) {
+		return {
+			
+			constructor: function (node) {
+				inherited.constructor.call(this, node);
+				this._timer = new Timer({
+					context: this,
+					fire: this._fire,
+					delay: 100
+				});
+			},
+			
+			destroy: function () {
+				this._timer.weakDestroy();
+				inherited.destroy.call(this);
+			},
+			
+			_fire: function () {
+				if (!this._node.parentElement) {
+					this._timer.stop();
+					this._nodeRemoved(this._node);
+				}
+			}
+			
+		};
+	}, {
+		
+		supported: function (node) {
+			return true;
+		}
+		
+	});	
+
+});
+
+Scoped.extend("module:DomMutation.NodeRemoveObserver", [
+    "module:DomMutation.NodeRemoveObserver",
+    "module:DomMutation.MutationObserverNodeRemoveObserver",
+    "module:DomMutation.DOMNodeRemovedNodeRemoveObserver",
+    "module:DomMutation.TimerNodeRemoveObserver"
+], function (Observer, MutationObserverNodeRemoveObserver, DOMNodeRemovedNodeRemoveObserver, TimerNodeRemoveObserver) {
+	Observer.register(MutationObserverNodeRemoveObserver, 3);
+	Observer.register(DOMNodeRemovedNodeRemoveObserver, 2);
+	Observer.register(TimerNodeRemoveObserver, 1);
+	return {};
+});
+
+
+Scoped.define("module:DomMutation.NodeResizeObserver", [
+    "base:Class",
+    "base:Events.EventsMixin",
+    "jquery:"
+], function (Class, EventsMixin, $, scoped) {
+	return Class.extend({scoped: scoped}, [EventsMixin, function (inherited) {
+		return {
+			
+			constructor: function (node) {
+				inherited.constructor.call(this);
+				var self = this;
+				$(window).on("resize." + this.cid(), function () {
+					self._resized();
+				});
+			},
+			
+			destroy: function () {
+				$(window).off("." + this.cid());
+				inherited.destroy.call(this);
+			},
+			
+			_resized: function () {
+				this.trigger("node-resized");
+			}
+			
+		};
+	}]);
+});
+
+
+Scoped.define("module:DomMutation.NodeInsertObserver", [
+	"base:Classes.ConditionalInstance",
+	"base:Events.EventsMixin"
+], function (ConditionalInstance, EventsMixin, scoped) {
+	return ConditionalInstance.extend({scoped: scoped}, [EventsMixin, function (inherited) {
+		return {
+			
+			_nodeInserted: function (node) {
+				if (this._options.parent && node.parentNode !== this._options.parent)
+					return;
+				if (this._options.root && !this._options.root.contains(node))
+					return;
+				if (this._options.filter && !this._options.filter.call(this._options.context || this, node))
+					return;
+				this.trigger("node-inserted", node);
+			}
+			
+		};
+	}]);
+});
+
+
+Scoped.define("module:DomMutation.MutationObserverNodeInsertObserver", [
+	"module:DomMutation.NodeInsertObserver",
+	"base:Objs"
+], function (Observer, Objs, scoped) {
+	return Observer.extend({scoped: scoped}, function (inherited) {
+		return {
+			
+			constructor: function (options) {
+				inherited.constructor.call(this, options);
+				var self = this;
+				this._observer = new window.MutationObserver(function (mutations) {
+					Objs.iter(mutations, function (mutation) {
+						for (var i = 0; i < mutation.addedNodes.length; ++i)
+							self._nodeInserted(mutation.addedNodes[i]);
+					});
+				});
+				this._observer.observe(this._options.root || this._options.parent || document.body, {
+					childList: true,
+					subtree: !!this._options.parent
+				});
+			},
+			
+			destroy: function () {
+				this._observer.disconnect();
+				inherited.destroy.call(this);
+			}
+			
+		};
+	}, {
+		
+		supported: function (node) {
+			try {
+				return !!window.MutationObserver;
+			} catch (e) {
+				return false;
+			}
+		}
+		
+	});	
+});
+
+
+
+Scoped.define("module:DomMutation.DOMNodeInsertedNodeInsertObserver", [
+	"module:DomMutation.NodeInsertObserver",
+	"jquery:"
+], function (Observer, $, scoped) {
+	return Observer.extend({scoped: scoped}, function (inherited) {
+		return {
+			
+			constructor: function (options) {
+				inherited.constructor.call(this, options);
+				var self = this;
+				$(document).on("DOMNodeInserted." + this.cid(), function (event) {
+					self._nodeInserted(event.target);
+				});
+			},
+			
+			destroy: function () {
+				$(document).off("DOMNodeInserted." + this.cid());
+				inherited.destroy.call(this);
+			}
+			
+		};
+	}, {
+		
+		supported: function (node) {
+			return true;
+		}
+		
+	});	
+});
+
+
+Scoped.extend("module:DomMutation.NodeInsertObserver", [
+	"module:DomMutation.NodeInsertObserver",
+	"module:DomMutation.MutationObserverNodeInsertObserver",
+	"module:DomMutation.DOMNodeInsertedNodeInsertObserver"
+], function (Observer, MutationObserverNodeInsertObserver, DOMNodeInsertedNodeInsertObserver) {
+	Observer.register(MutationObserverNodeInsertObserver, 3);
+	Observer.register(DOMNodeInsertedNodeInsertObserver, 2);
+	return {};
 });
 
 /*
@@ -1099,7 +1379,8 @@ Scoped.define("module:Info", [
 					platform: navigator.platform,
 					userAgent: navigator.userAgent,
 					window_chrome: "chrome" in window,
-					window_opera: "opera" in window
+					window_opera: "opera" in window,
+					language: navigator.language || navigator.userLanguage || ""
 				};
 			}
 			return this.__navigator;
@@ -1119,6 +1400,12 @@ Scoped.define("module:Info", [
 			this.__navigator = obj;
 			this.__cache = {};
 		},
+		
+		language: function () {
+			return this.__cached("language", function (nav) {
+				return nav.language;
+			});
+		},
 	
 		flash: function () {
 			return this.__cached("flash", function () {
@@ -1128,7 +1415,7 @@ Scoped.define("module:Info", [
 		
 		isiOS: function () {
 			return this.__cached("isiOS", function (nav, ua) {
-				if (this.isInternetExplorer())
+				if (this.isInternetExplorer() || this.isIEMobile())
 					return false;
 				return ua.indexOf('iPhone') != -1 || ua.indexOf('iPod') != -1 || ua.indexOf('iPad') != -1;
 			});
@@ -1146,9 +1433,27 @@ Scoped.define("module:Info", [
 			});
 		},
 		
+		isLocalCordova: function () {
+			return this.__cached("isLocalCordova", function () {
+				return this.isCordova() && document.location.href.indexOf("http") !== 0;
+			});
+		},
+
 		isChrome: function () {
 			return this.__cached("isChrome", function (nav, ua) {
 				return (nav.window_chrome || ua.indexOf('CriOS') != -1) && !this.isOpera() && !this.isEdge();
+			});
+		},
+		
+		isChromium: function () {
+			return this.__cached("isChromium", function (nav, ua, ualc) {
+				return !this.isChrome() && this.isAndroid() && ualc.indexOf("linux") >= 0;
+			});
+		},
+		
+		isChromiumBased: function () {
+			return this.__cached("isChromiumBased", function () {
+				return this.isChrome() || this.isChromium();
 			});
 		},
 		
@@ -1210,10 +1515,16 @@ Scoped.define("module:Info", [
 		isInternetExplorer: function () {
 			return this.__cached("isInternetExplorer", function () {
 				//return navigator.appName == 'Microsoft Internet Explorer';
-				return this.internetExplorerVersion() !== null;
+				return !this.isIEMobile() && this.internetExplorerVersion() !== null;
 			});
 		},
 		
+		isIEMobile: function () {
+			return this.__cached("isIEMobile", function (nav, ua, ualc) {
+				return ualc.indexOf("iemobile") >= 0;
+			});
+		},
+
 		isFirefox: function () {
 			return this.__cached("isFirefox", function (nav, ua, ualc) {
 				return ualc.indexOf("firefox") != -1 || ualc.indexOf("fxios") != -1;
@@ -1222,13 +1533,13 @@ Scoped.define("module:Info", [
 		
 		isSafari: function () {
 			return this.__cached("isSafari", function (nav, ua, ualc) {
-				return !this.isChrome() && !this.isOpera() && !this.isEdge() && !this.isFirefox() && ualc.indexOf("safari") != -1;
+				return !this.isChrome() && !this.isOpera() && !this.isEdge() && !this.isFirefox() && ualc.indexOf("safari") != -1 && !this.isAndroid();
 			});
 		},
 		
 		isWindows: function () {
 			return this.__cached("isWindows", function (nav) {
-				return nav.appVersion.toLowerCase().indexOf("win") != -1;
+				return nav.appVersion.toLowerCase().indexOf("win") != -1 && !this.isWindowsPhone();
 			});
 		},
 		
@@ -1277,6 +1588,36 @@ Scoped.define("module:Info", [
 			});
 		},
 		
+		operaVersion: function () {
+			return this.__cached("operaVersion", function (nav, ua) {
+				var re = /OPR\/(\d+\.\d+)[^\d]/gi;
+				var ma = re.exec(ua);
+				if (ma)
+					return parseFloat(ma[1]);
+				return null;
+			});
+		},
+		
+		safariVersion: function () {
+			return this.__cached("safariVersion", function (nav, ua) {
+				var re = /Version\/(\d+\.\d+)[^\d]/gi;
+				var ma = re.exec(ua);
+				if (ma)
+					return parseFloat(ma[1]);
+				return null;
+			});
+		},
+
+		firefoxVersion: function () {
+			return this.__cached("firefoxVersion", function (nav, ua) {
+				var re = /Firefox\/(\d+\.\d+)/gi;
+				var ma = re.exec(ua);
+				if (ma)
+					return parseFloat(ma[1]);
+				return null;
+			});
+		},
+
 		inIframe: function () {
 		    try {
 		        return window.self !== window.top;
@@ -1379,6 +1720,9 @@ Scoped.define("module:Info", [
 		    chrome: {
 		    	format: "Chrome",
 		    	check: function () { return this.isChrome(); }
+		    }, chromium: {
+		    	format: "Chromium",
+		    	check: function () { return this.isChromium(); }
 		    }, opera: {
 		    	format: "Opera",
 		    	check: function () { return this.isOpera(); }
@@ -1394,22 +1738,19 @@ Scoped.define("module:Info", [
 		    }, safari: {
 		    	format: "Safari",
 		    	check: function () { return this.isSafari(); }
-		    }, android: {
-		    	format: "Android",
-		    	check: function () { return this.isAndroid() && !this.isChrome(); }
 		    }, webos: {
 		    	format: "WebOS",
 		    	check: function () { return this.isWebOS(); }
-		    }, windowsphone: {
-		    	format: "Windows Phone",
-		    	check: function () { return this.isWindowsPhone(); }
 		    }, blackberry: {
 		    	format: "Blackberry",
 		    	check: function () { return this.isBlackberry(); }
 		    }, edge: {
 		    	format: "Edge",
 		    	check: function () { return this.isEdge(); }
-		    }
+		    }, iemobile: {
+		    	format: "IE Mobile",
+		    	check: function () { return this.isIEMobile(); }
+		    }		    
 		},
 		
 		getBrowser: function () {
@@ -1745,7 +2086,7 @@ Scoped.define("module:Upload.FormDataFileUploader", [
     "jquery:",
     "base:Objs"
 ], function (FileUploader, Info, $, Objs, scoped) {
-	var Cls = FileUploader.extend({scoped: scoped}, {
+	return FileUploader.extend({scoped: scoped}, {
 		
 		_upload: function () {
 			var self = this;
@@ -1793,10 +2134,6 @@ Scoped.define("module:Upload.FormDataFileUploader", [
 		}
 		
 	});	
-	
-	FileUploader.register(Cls, 2);
-	
-	return Cls;
 });
 
 
@@ -1808,7 +2145,7 @@ Scoped.define("module:Upload.FormIframeFileUploader", [
      "json:",
      "base:Objs"
 ], function (FileUploader, $, Uri, JSON, Objs, scoped) {
-	var Cls = FileUploader.extend({scoped: scoped}, {
+	return FileUploader.extend({scoped: scoped}, {
 		
 		_upload: function () {
 			var self = this;
@@ -1871,10 +2208,6 @@ Scoped.define("module:Upload.FormIframeFileUploader", [
 		}
 		
 	});	
-	
-	FileUploader.register(Cls, 1);
-	
-	return Cls;
 });
 
 
@@ -1886,7 +2219,7 @@ Scoped.define("module:Upload.ResumableFileUploader", [
     "base:Objs",
     "jquery:"
 ], function (FileUploader, ResumableJS, Async, Objs, $, scoped) {
-	var Cls = FileUploader.extend({scoped: scoped}, {
+	return FileUploader.extend({scoped: scoped}, {
 		
 		_upload: function () {
 			this._resumable = new ResumableJS(Objs.extend({
@@ -1950,10 +2283,6 @@ Scoped.define("module:Upload.ResumableFileUploader", [
 		}
 		
 	});	
-	
-	FileUploader.register(Cls, 3);
-	
-	return Cls;
 });
 
 
@@ -1961,19 +2290,19 @@ Scoped.define("module:Upload.ResumableFileUploader", [
 Scoped.define("module:Upload.CordovaFileUploader", [
      "module:Upload.FileUploader"
 ], function (FileUploader, scoped) {
-	var Cls = FileUploader.extend({scoped: scoped}, {
+	return FileUploader.extend({scoped: scoped}, {
  		
  		_upload: function () {
  			var self = this;
  		    //var fileURI = this._options.source.localURL;
  			var fileURI = this._options.source.fullPath.split(':')[1];
- 		    var fileUploadOptions = new FileUploadOptions();
+ 		    var fileUploadOptions = new window.FileUploadOptions();
  		    fileUploadOptions.fileKey = "file";
  		    fileUploadOptions.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
  		    fileUploadOptions.mimeType = this._options.source.type;
  		    fileUploadOptions.httpMethod = "POST";
  		    fileUploadOptions.params = this._options.data;
- 		    var fileTransfer = new FileTransfer();
+ 		    var fileTransfer = new window.FileTransfer();
  		    fileTransfer.upload(fileURI, this._options.url, function (data) {
 	    		self._successCallback(data);
  		    }, function (data) {
@@ -1996,10 +2325,26 @@ Scoped.define("module:Upload.CordovaFileUploader", [
  		}
  		
  	});	
- 	
- 	FileUploader.register(Cls, 4);
- 	
- 	return Cls;
- });
+});
 
+
+Scoped.extend("module:Upload.FileUploader", [
+	"module:Upload.FileUploader",
+	"module:Upload.FormDataFileUploader",
+	"module:Upload.FormIframeFileUploader",
+	"module:Upload.CordovaFileUploader"
+], function (FileUploader, FormDataFileUploader, FormIframeFileUploader, CordovaFileUploader) {
+	FileUploader.register(FormDataFileUploader, 2);
+	FileUploader.register(FormIframeFileUploader, 1);
+	FileUploader.register(CordovaFileUploader, 4);
+	return {};
+});
+
+Scoped.extend("module:Upload.FileUploader", [
+	"module:Upload.FileUploader",
+	"module:Upload.ResumableFileUploader"
+], function (FileUploader, ResumableFileUploader) {
+	FileUploader.register(ResumableFileUploader, 3);
+	return {};
+});
 }).call(Scoped);

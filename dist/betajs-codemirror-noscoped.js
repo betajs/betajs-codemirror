@@ -1,7 +1,7 @@
 /*!
-betajs-codemirror - v1.0.0 - 2015-05-07
+betajs-codemirror - v1.0.2 - 2016-02-10
 Copyright (c) Oliver Friedmann,Victor Lingenthal
-MIT Software License.
+Apache 2.0 Software License.
 */
 (function () {
 
@@ -16,7 +16,7 @@ Scoped.binding("jquery", "global:jQuery");
 Scoped.define("module:", function () {
 	return {
 		guid: "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-		version: '15.1430995092596'
+		version: '17.1455125305666'
 	};
 });
 

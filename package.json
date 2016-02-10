@@ -1,33 +1,39 @@
 {
 	"name": "betajs-codemirror",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
 	"homepage": "http://betajs.com",
 	"contributors": ["Oliver Friedmann", "Victor Lingenthal"],
-	"license": "MIT",
+	"license": "Apache 2.0",
 	"devDependencies": {
 		"grunt": "",
 		"grunt-contrib-jshint": "",
-		"grunt-contrib-nodeunit": "",
 		"grunt-contrib-concat": "",
 		"grunt-contrib-uglify": "",
 		"grunt-contrib-clean": "",
 		"grunt-preprocess": "",
 		"grunt-git-revision-count": "",
 		"grunt-closure-tools": "",
-		"grunt-node-qunit": "",
 		"grunt-contrib-jshint": "",
 		"grunt-wget": "",
-		"grunt-jsdoc": "beta",
-		"grunt-shell": "",
+		"grunt-jsdoc": "",
 		"grunt-template": "",
-		"grunt-contrib-csslint": ""
+		"grunt-contrib-csslint": "",
+		"betajs-compile": "betajs/betajs-compile"
 	},
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/betajs/betajs-codemirror.git"
 	},
 	"meta": {
+		"guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
+		"blog": "http://blog.betajs.com",
+		"twitter": "http://twitter.com/thebetajs",
+		"badges": {
+			"codeclimate": true,
+			"travis": false,
+			"npm": false
+		},
 		"status": "Active, In Development",
 		"weakDependencies": {
 			"betajs-scoped": "https://github.com/betajs/betajs-scoped"
