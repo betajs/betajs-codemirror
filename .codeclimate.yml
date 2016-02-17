@@ -7,8 +7,6 @@ engines:
     enabled: true
   fixme:
     enabled: true
-  duplication:
-    enabled: true
 ratings:
   paths:
   - src/**/*.js
