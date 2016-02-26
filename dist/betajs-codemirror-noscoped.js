@@ -1,25 +1,21 @@
 /*!
-betajs-codemirror - v1.0.2 - 2016-02-10
-Copyright (c) Oliver Friedmann,Victor Lingenthal
-Apache 2.0 Software License.
+betajs-codemirror - v1.0.3 - 2016-02-26
+Copyright (c) Victor Lingenthal
+Apache-2.0 Software License.
 */
+
 (function () {
-
 var Scoped = this.subScope();
-
-Scoped.binding("module", "global:BetaJS.Dynamics.Codemirror");
-Scoped.binding("base", "global:BetaJS");
-Scoped.binding("dynamics", "global:BetaJS.Dynamics");
-
-Scoped.binding("jquery", "global:jQuery");
-
+Scoped.binding('module', 'global:BetaJS.Dynamics.Codemirror');
+Scoped.binding('base', 'global:BetaJS');
+Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
+Scoped.binding('jquery', 'global:jQuery');
 Scoped.define("module:", function () {
 	return {
-		guid: "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-		version: '17.1455125305666'
-	};
+    "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
+    "version": "20.1456497800907"
+};
 });
-
 Scoped.define("module:Codemirror", [
     "dynamics:Dynamic",
     "base:Strings",

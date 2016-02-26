@@ -8,13 +8,18 @@ module.exports = function(grunt) {
 	
 	
     /* Compilation */    
-    .concatTask('concat-raw', ['src/fragments/begin.js-fragment', 'src/**/*.js', 'src/fragments/end.js-fragment'], 'dist/' + dist + '-raw.js')
-    .preprocessrevisionTask(null, 'dist/' + dist + '-raw.js', 'dist/' + dist + '-noscoped.js')
+    .scopedclosurerevisionTask(null, "src/**/*.js", "dist/" + dist + "-noscoped.js", {
+		"module": "global:BetaJS.Dynamics.Codemirror",
+		"base": "global:BetaJS",
+		"dynamics": "global:BetaJS.Dynamics",
+		"jquery": "global:jQuery"
+    })	
     .concatTask('concat-scoped', ['vendors/scoped.js', 'dist/' + dist + '-noscoped.js'], 'dist/' + dist + '.js')
     .uglifyTask('uglify-noscoped', 'dist/' + dist + '-noscoped.js', 'dist/' + dist + '-noscoped.min.js')
     .uglifyTask('uglify-scoped', 'dist/' + dist + '.js', 'dist/' + dist + '.min.js')
     .concatTask('concat-css', ['src/*.css'], 'dist/' + dist + ".css")
     .cssminTask('cssminify', 'dist/' + dist + ".css", 'dist/' + dist + ".min.css")
+    .packageTask()
 
     /* Testing */
     .closureTask(null, ["./vendors/scoped.js", "./vendors/beta-noscoped.js",  "./vendors/betajs-browser-noscoped.js", "./vendors/betajs-dynamics-noscoped.js", "./dist/betajs-codemirror-noscoped.js"], null, { jquery: true })
@@ -41,7 +46,7 @@ module.exports = function(grunt) {
 
 	grunt.initConfig(gruntHelper.config);	
 
-	grunt.registerTask('default', ['readme', 'license', 'codeclimate', 'concat-raw', 'preprocessrevision', 'concat-scoped', 'uglify-noscoped', 'uglify-scoped', 'concat-css', 'cssminify']);
+	grunt.registerTask('default', ['package', 'readme', 'license', 'codeclimate', 'scopedclosurerevision', 'concat-scoped', 'uglify-noscoped', 'uglify-scoped', 'concat-css', 'cssminify']);
 	grunt.registerTask('check', ['lint', 'csslinter']);
 
 };
