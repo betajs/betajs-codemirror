@@ -4,6 +4,7 @@
 	"description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
 	"contributors": ["Victor Lingenthal"],
 	"devDependencies": {
+        "lodash": "",
 		"grunt": "",
 		"grunt-contrib-jshint": "",
 		"grunt-contrib-concat": "",
