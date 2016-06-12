@@ -1,4 +1,4 @@
-# betajs-codemirror 1.0.3
+# betajs-codemirror 1.0.4
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-codemirror/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-codemirror)
 
 

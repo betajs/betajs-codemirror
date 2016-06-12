@@ -15,7 +15,8 @@ Scoped.define("module:Codemirror", [
 			},
 			
 			create : function() {
-				this.set("value", this.initialContent);
+				if (this.initialContent)
+					this.set("value", this.initialContent);
 				if (this.get("trim") !== undefined)
 					this.set("value", Strings.nltrim(this.get("value")));
 				this.set("readonly", false);

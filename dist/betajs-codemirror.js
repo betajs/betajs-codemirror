@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.3 - 2016-02-26
+betajs-codemirror - v1.0.4 - 2016-06-12
 Copyright (c) Victor Lingenthal
 Apache-2.0 Software License.
 */
@@ -693,7 +693,7 @@ Public.exports();
 	return Public;
 }).call(this);
 /*!
-betajs-codemirror - v1.0.3 - 2016-02-26
+betajs-codemirror - v1.0.4 - 2016-06-12
 Copyright (c) Victor Lingenthal
 Apache-2.0 Software License.
 */
@@ -707,7 +707,7 @@ Scoped.binding('jquery', 'global:jQuery');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "20.1456497800907"
+    "version": "23.1465770688658"
 };
 });
 Scoped.define("module:Codemirror", [
@@ -727,7 +727,8 @@ Scoped.define("module:Codemirror", [
 			},
 			
 			create : function() {
-				this.set("value", this.initialContent);
+				if (this.initialContent)
+					this.set("value", this.initialContent);
 				if (this.get("trim") !== undefined)
 					this.set("value", Strings.nltrim(this.get("value")));
 				this.set("readonly", false);

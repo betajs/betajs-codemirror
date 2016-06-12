@@ -15,7 +15,7 @@
         "url": "https://github.com/betajs/betajs-codemirror/issues"
     },
     "name": "betajs-codemirror",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
     "contributors": [
         "Victor Lingenthal"
