@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.4 - 2016-06-12
+betajs-codemirror - v1.0.4 - 2016-06-15
 Copyright (c) Victor Lingenthal
 Apache-2.0 Software License.
 */
@@ -13,7 +13,7 @@ Scoped.binding('jquery', 'global:jQuery');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "23.1465770688658"
+    "version": "24.1465998773354"
 };
 });
 Scoped.define("module:Codemirror", [
@@ -29,7 +29,8 @@ Scoped.define("module:Codemirror", [
 		initial : {
 			
 			attrs : {
-				language: "html"
+				language: "html",
+				value: ""
 			},
 			
 			create : function() {

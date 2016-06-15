@@ -11,7 +11,8 @@ Scoped.define("module:Codemirror", [
 		initial : {
 			
 			attrs : {
-				language: "html"
+				language: "html",
+				value: ""
 			},
 			
 			create : function() {
