@@ -14,7 +14,6 @@
 		"grunt-preprocess": "",
 		"grunt-git-revision-count": "",
 		"grunt-closure-tools": "",
-		"grunt-contrib-jshint": "",
 		"grunt-wget": "",
 		"grunt-jsdoc": "",
 		"grunt-template": "",

@@ -1,4 +1,4 @@
-# betajs-codemirror 1.0.4
+# betajs-codemirror 1.0.5
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-codemirror/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-codemirror)
 
 
@@ -62,9 +62,10 @@ You can use the library in the browser and compile it as well.
 | :--------- | --: |
 | Homepage   | [http://betajs.com](http://betajs.com) |
 | Git        | [git://github.com/betajs/betajs-codemirror.git](git://github.com/betajs/betajs-codemirror.git) |
-| Repository | [http://github.com/betajs/betajs-codemirror](http://github.com/betajs/betajs-codemirror) |
+| Repository | [https://github.com/betajs/betajs-codemirror](https://github.com/betajs/betajs-codemirror) |
 | Blog       | [http://blog.betajs.com](http://blog.betajs.com) | 
 | Twitter    | [http://twitter.com/thebetajs](http://twitter.com/thebetajs) | 
+ 
 
 
 
@@ -93,13 +94,17 @@ You can use the library in the browser and compile it as well.
 | betajs-scoped | [Open](https://github.com/betajs/betajs-scoped) |
 
 
-## Contributors
+## Main Contributors
 
 - Victor Lingenthal
-
 
 ## License
 
 Apache-2.0
+
+
+
+
+
 
 

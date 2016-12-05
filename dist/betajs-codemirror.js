@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.4 - 2016-06-15
+betajs-codemirror - v1.0.5 - 2016-12-04
 Copyright (c) Victor Lingenthal
 Apache-2.0 Software License.
 */
@@ -693,7 +693,7 @@ Public.exports();
 	return Public;
 }).call(this);
 /*!
-betajs-codemirror - v1.0.4 - 2016-06-15
+betajs-codemirror - v1.0.5 - 2016-12-04
 Copyright (c) Victor Lingenthal
 Apache-2.0 Software License.
 */
@@ -707,14 +707,15 @@ Scoped.binding('jquery', 'global:jQuery');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "24.1465998773354"
+    "version": "25.1480901416503"
 };
 });
 Scoped.define("module:Codemirror", [
     "dynamics:Dynamic",
     "base:Strings",
-    "base:Timers"
-], function (Dynamic, Strings, Timers, scoped) {
+    "base:Timers",
+    "jquery:"
+], function (Dynamic, Strings, Timers, $, scoped) {
 	
 	var Cls = Dynamic.extend({scoped: scoped}, {
 		
@@ -745,7 +746,7 @@ Scoped.define("module:Codemirror", [
 						context : this
 					}));
 				}
-				var element = this.element().find("textarea").get(0);
+				var element = $(this.element()).find("textarea").get(0);
 				var self = this;
 				var language = this.cls.languages[this.get("language")] || {
 					mode : this.get("language")
