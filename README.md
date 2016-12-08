@@ -1,4 +1,4 @@
-# betajs-codemirror 1.0.5
+# betajs-codemirror 1.0.6
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-codemirror/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-codemirror)
 
 
@@ -14,7 +14,6 @@ You can use the library in the browser and compile it as well.
 #### Browser
 
 ```javascript
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 	<script src="codemirror/codemirror.js"></script>
 	<script src="betajs/dist/betajs.min.js"></script>
 	<script src="betajs-browser/dist/betajs-browser.min.js"></script>

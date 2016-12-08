@@ -1,9 +1,8 @@
 Scoped.define("module:Codemirror", [
     "dynamics:Dynamic",
     "base:Strings",
-    "base:Timers",
-    "jquery:"
-], function (Dynamic, Strings, Timers, $, scoped) {
+    "base:Timers"
+], function (Dynamic, Strings, Timers, scoped) {
 	
 	var Cls = Dynamic.extend({scoped: scoped}, {
 		
@@ -34,7 +33,7 @@ Scoped.define("module:Codemirror", [
 						context : this
 					}));
 				}
-				var element = $(this.element()).find("textarea").get(0);
+				var element = (this.activeElement().getElementsByTagName("textarea"))[0];
 				var self = this;
 				var language = this.cls.languages[this.get("language")] || {
 					mode : this.get("language")

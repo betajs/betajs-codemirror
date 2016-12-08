@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.5 - 2016-12-04
+betajs-codemirror - v1.0.6 - 2016-12-08
 Copyright (c) Victor Lingenthal
 Apache-2.0 Software License.
 */
@@ -9,19 +9,17 @@ var Scoped = this.subScope();
 Scoped.binding('module', 'global:BetaJS.Dynamics.Codemirror');
 Scoped.binding('base', 'global:BetaJS');
 Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
-Scoped.binding('jquery', 'global:jQuery');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "25.1480901416503"
+    "version": "26.1481238274648"
 };
 });
 Scoped.define("module:Codemirror", [
     "dynamics:Dynamic",
     "base:Strings",
-    "base:Timers",
-    "jquery:"
-], function (Dynamic, Strings, Timers, $, scoped) {
+    "base:Timers"
+], function (Dynamic, Strings, Timers, scoped) {
 	
 	var Cls = Dynamic.extend({scoped: scoped}, {
 		
@@ -52,7 +50,7 @@ Scoped.define("module:Codemirror", [
 						context : this
 					}));
 				}
-				var element = $(this.element()).find("textarea").get(0);
+				var element = (this.activeElement().getElementsByTagName("textarea"))[0];
 				var self = this;
 				var language = this.cls.languages[this.get("language")] || {
 					mode : this.get("language")

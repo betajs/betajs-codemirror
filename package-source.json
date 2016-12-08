@@ -1,6 +1,6 @@
 {
 	"name": "betajs-codemirror",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
 	"contributors": ["Victor Lingenthal"],
 	"devDependencies": {

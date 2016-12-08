@@ -11,8 +11,7 @@ module.exports = function(grunt) {
     .scopedclosurerevisionTask(null, "src/**/*.js", "dist/" + dist + "-noscoped.js", {
 		"module": "global:BetaJS.Dynamics.Codemirror",
 		"base": "global:BetaJS",
-		"dynamics": "global:BetaJS.Dynamics",
-		"jquery": "global:jQuery"
+		"dynamics": "global:BetaJS.Dynamics"
     })	
     .concatTask('concat-scoped', ['vendors/scoped.js', 'dist/' + dist + '-noscoped.js'], 'dist/' + dist + '.js')
     .uglifyTask('uglify-noscoped', 'dist/' + dist + '-noscoped.js', 'dist/' + dist + '-noscoped.min.js')
@@ -22,7 +21,7 @@ module.exports = function(grunt) {
     .packageTask()
 
     /* Testing */
-    .closureTask(null, ["./vendors/scoped.js", "./vendors/beta-noscoped.js",  "./vendors/betajs-browser-noscoped.js", "./vendors/betajs-dynamics-noscoped.js", "./dist/betajs-codemirror-noscoped.js"], null, { jquery: true })
+    .closureTask(null, ["./vendors/scoped.js", "./vendors/beta-noscoped.js",  "./vendors/betajs-browser-noscoped.js", "./vendors/betajs-dynamics-noscoped.js", "./dist/betajs-codemirror-noscoped.js"], null, {  })
     .lintTask(null, ['./src/**/*.js', './dist/' + dist + '-noscoped.js', './dist/' + dist + '.js', './Gruntfile.js'])
     .csslinterTask(null, ['dist/betajs-codemirror.css'])
     
