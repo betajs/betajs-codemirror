@@ -1,5 +1,6 @@
 # betajs-codemirror 1.0.6
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-codemirror/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-codemirror)
+[![NPM](https://img.shields.io/npm/v/betajs-codemirror.svg?style=flat)](https://www.npmjs.com/package/betajs-codemirror)
 
 
 BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.
