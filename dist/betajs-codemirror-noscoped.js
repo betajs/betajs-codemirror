@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.6 - 2016-12-08
+betajs-codemirror - v1.0.7 - 2017-01-15
 Copyright (c) Victor Lingenthal
 Apache-2.0 Software License.
 */
@@ -12,9 +12,11 @@ Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "26.1481238274648"
+    "version": "1.0.7"
 };
 });
+Scoped.assumeVersion('base:version', '~1.0.96');
+Scoped.assumeVersion('dynamics:version', '~0.0.83');
 Scoped.define("module:Codemirror", [
     "dynamics:Dynamic",
     "base:Strings",

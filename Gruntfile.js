@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 
 	var pkg = grunt.file.readJSON('package.json');
-	var gruntHelper = require('betajs-compile/grunt.js');
+	var gruntHelper = require('betajs-compile');
 	var dist = 'betajs-codemirror';
 
 	gruntHelper.init(pkg, grunt)
@@ -12,8 +12,11 @@ module.exports = function(grunt) {
 		"module": "global:BetaJS.Dynamics.Codemirror",
 		"base": "global:BetaJS",
 		"dynamics": "global:BetaJS.Dynamics"
+    }, {
+    	"base:version": pkg.devDependencies.betajs,
+    	"dynamics:version": pkg.devDependencies["betajs-dynamics"]
     })	
-    .concatTask('concat-scoped', ['vendors/scoped.js', 'dist/' + dist + '-noscoped.js'], 'dist/' + dist + '.js')
+    .concatTask('concat-scoped', [require.resolve("betajs-scoped"), 'dist/' + dist + '-noscoped.js'], 'dist/' + dist + '.js')
     .uglifyTask('uglify-noscoped', 'dist/' + dist + '-noscoped.js', 'dist/' + dist + '-noscoped.min.js')
     .uglifyTask('uglify-scoped', 'dist/' + dist + '.js', 'dist/' + dist + '.min.js')
     .concatTask('concat-css', ['src/*.css'], 'dist/' + dist + ".css")
@@ -21,21 +24,13 @@ module.exports = function(grunt) {
     .packageTask()
 
     /* Testing */
-    .closureTask(null, ["./vendors/scoped.js", "./vendors/beta-noscoped.js",  "./vendors/betajs-browser-noscoped.js", "./vendors/betajs-dynamics-noscoped.js", "./dist/betajs-codemirror-noscoped.js"], null, {  })
+    .closureTask(null, [require.resolve("betajs-scoped"), require.resolve("betajs"), require.resolve("betajs-browser"), require.resolve("betajs-dynamics"), "./dist/betajs-codemirror-noscoped.js"], null, {  })
     .lintTask(null, ['./src/**/*.js', './dist/' + dist + '-noscoped.js', './dist/' + dist + '.js', './Gruntfile.js'])
     .csslinterTask(null, ['dist/betajs-codemirror.css'])
     
     /* External Configurations */
     .codeclimateTask()
     
-    /* Dependencies */
-    .dependenciesTask(null, { github: [
-        'betajs/betajs-scoped/dist/scoped.js',
-        'betajs/betajs/dist/beta-noscoped.js',
-        'betajs/betajs-browser/dist/betajs-browser-noscoped.js',
-        'betajs/betajs-dynamics/dist/betajs-dynamics-noscoped.js'
-     ] })
-
     /* Markdown Files */
 	.readmeTask()
     .licenseTask()
