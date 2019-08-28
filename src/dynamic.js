@@ -12,7 +12,8 @@ Scoped.define("module:Codemirror", [
 			
 			attrs : {
 				language: "html",
-				value: ""
+				value: "",
+				theme: ""
 			},
 			
 			create : function() {
@@ -74,7 +75,8 @@ Scoped.define("module:Codemirror", [
 							gutters : [ language.gutters,
 									"CodeMirror-linenumbers",
 									"CodeMirror-foldgutter" ],
-							lintWith : language.lint
+							lintWith : language.lint,
+							theme: this.get("theme")
 						});
 				this.codemirror.on("gutterClick", function(cm,
 						where) {
