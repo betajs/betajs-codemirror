@@ -12,7 +12,19 @@ Scoped.define("module:Codemirror", [
 			
 			attrs : {
 				language: "html",
-				value: ""
+				value: "",
+				theme: "",
+				readonly: false,
+				"auto-refresh": false,
+				trim: false
+			},
+			types: {
+				"language": "string",
+				"value": "string",
+				"theme": "string",
+				"readonly": "boolean",
+				"auto-refresh": "boolean",
+				"trim": "boolean"
 			},
 			
 			create : function() {
