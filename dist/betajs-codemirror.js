@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.7 - 2019-10-11
+betajs-codemirror - v1.0.8 - 2019-10-11
 Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
@@ -1006,7 +1006,7 @@ Public.exports();
 	return Public;
 }).call(this);
 /*!
-betajs-codemirror - v1.0.7 - 2019-10-11
+betajs-codemirror - v1.0.8 - 2019-10-11
 Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
@@ -1019,8 +1019,8 @@ Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "1.0.7",
-    "datetime": 1570846242189
+    "version": "1.0.8",
+    "datetime": 1570846515949
 };
 });
 Scoped.assumeVersion('base:version', '~1.0.96');
