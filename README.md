@@ -1,7 +1,7 @@
 # betajs-codemirror 1.0.7
 [![Code Climate](https://codeclimate.com/github/betajs/betajs-codemirror/badges/gpa.svg)](https://codeclimate.com/github/betajs/betajs-codemirror)
 [![NPM](https://img.shields.io/npm/v/betajs-codemirror.svg?style=flat)](https://www.npmjs.com/package/betajs-codemirror)
-
+[![Gitter Chat](https://badges.gitter.im/betajs/betajs-codemirror.svg)](https://gitter.im/betajs/betajs-codemirror)
 
 BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.
 
@@ -60,12 +60,12 @@ You can use the library in the browser and compile it as well.
 ## Links
 | Resource   | URL |
 | :--------- | --: |
-| Homepage   | [http://betajs.com](http://betajs.com) |
+| Homepage   | [https://betajs.com](https://betajs.com) |
 | Git        | [git://github.com/betajs/betajs-codemirror.git](git://github.com/betajs/betajs-codemirror.git) |
 | Repository | [https://github.com/betajs/betajs-codemirror](https://github.com/betajs/betajs-codemirror) |
-| Blog       | [http://blog.betajs.com](http://blog.betajs.com) | 
-| Twitter    | [http://twitter.com/thebetajs](http://twitter.com/thebetajs) | 
- 
+| Blog       | [https://blog.betajs.com](https://blog.betajs.com) | 
+| Twitter    | [https://twitter.com/thebetajs](https://twitter.com/thebetajs) | 
+| Gitter     | [https://gitter.im/betajs/betajs-codemirror](https://gitter.im/betajs/betajs-codemirror) | 
 
 
 
@@ -97,6 +97,8 @@ You can use the library in the browser and compile it as well.
 ## Main Contributors
 
 - Victor Lingenthal
+- Oliver Friedmann
+- Ibnu Triyono
 
 ## License
 

@@ -1,6 +1,6 @@
 /*!
-betajs-codemirror - v1.0.7 - 2017-01-15
-Copyright (c) Victor Lingenthal
+betajs-codemirror - v1.0.7 - 2019-10-11
+Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
 
@@ -12,7 +12,8 @@ Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "1.0.7"
+    "version": "1.0.7",
+    "datetime": 1570846242189
 };
 });
 Scoped.assumeVersion('base:version', '~1.0.96');
@@ -31,7 +32,19 @@ Scoped.define("module:Codemirror", [
 			
 			attrs : {
 				language: "html",
-				value: ""
+				value: "",
+				theme: "",
+				readonly: false,
+				"auto-refresh": false,
+				trim: false
+			},
+			types: {
+				"language": "string",
+				"value": "string",
+				"theme": "string",
+				"readonly": "boolean",
+				"auto-refresh": "boolean",
+				"trim": "boolean"
 			},
 			
 			create : function() {
@@ -39,7 +52,7 @@ Scoped.define("module:Codemirror", [
 					this.set("value", this.initialContent);
 				if (this.get("trim") !== undefined)
 					this.set("value", Strings.nltrim(this.get("value")));
-				this.set("readonly", false);
+				// this.set("readonly", false);
 				this.on("change:readonly", function(value) {
 					this.codemirror.setOption("readOnly", value);
 				}, this);
@@ -93,7 +106,8 @@ Scoped.define("module:Codemirror", [
 							gutters : [ language.gutters,
 									"CodeMirror-linenumbers",
 									"CodeMirror-foldgutter" ],
-							lintWith : language.lint
+							lintWith : language.lint,
+							theme: this.get("theme")
 						});
 				this.codemirror.on("gutterClick", function(cm,
 						where) {

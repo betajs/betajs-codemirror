@@ -13,7 +13,18 @@ Scoped.define("module:Codemirror", [
 			attrs : {
 				language: "html",
 				value: "",
-				theme: ""
+				theme: "",
+				readonly: false,
+				"auto-refresh": false,
+				trim: false
+			},
+			types: {
+				"language": "string",
+				"value": "string",
+				"theme": "string",
+				"readonly": "boolean",
+				"auto-refresh": "boolean",
+				"trim": "boolean"
 			},
 			
 			create : function() {
@@ -21,7 +32,7 @@ Scoped.define("module:Codemirror", [
 					this.set("value", this.initialContent);
 				if (this.get("trim") !== undefined)
 					this.set("value", Strings.nltrim(this.get("value")));
-				this.set("readonly", false);
+				// this.set("readonly", false);
 				this.on("change:readonly", function(value) {
 					this.codemirror.setOption("readOnly", value);
 				}, this);

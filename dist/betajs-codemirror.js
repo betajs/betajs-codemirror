@@ -1,10 +1,10 @@
 /*!
-betajs-codemirror - v1.0.7 - 2017-01-15
-Copyright (c) Victor Lingenthal
+betajs-codemirror - v1.0.7 - 2019-10-11
+Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
 /** @flow **//*!
-betajs-scoped - v0.0.13 - 2017-01-15
+betajs-scoped - v0.0.19 - 2018-04-07
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -16,7 +16,7 @@ var Globals = (function () {
  * @module Globals
  * @access private
  */
-return { 
+return {
 		
 	/**
 	 * Returns the value of a global variable.
@@ -26,11 +26,11 @@ return {
 	 */
 	get : function(key/* : string */) {
 		if (typeof window !== "undefined")
-			return window[key];
+			return key ? window[key] : window;
 		if (typeof global !== "undefined")
-			return global[key];
+			return key ? global[key] : global;
 		if (typeof self !== "undefined")
-			return self[key];
+			return key ? self[key] : self;
 		return undefined;
 	},
 
@@ -64,6 +64,8 @@ return {
 	 * Globals.getPath("foo.bar")
 	 */
 	getPath: function (path/* : string */) {
+		if (!path)
+			return this.get();
 		var args = path.split(".");
 		if (args.length == 1)
 			return this.get(path);		
@@ -474,7 +476,7 @@ function newNamespace (opts/* : {tree ?: boolean, global ?: boolean, root ?: Obj
 	function nodeUnresolvedWatchers(node/* : Node */, base, result) {
 		node = node || nsRoot;
 		result = result || [];
-		if (!node.ready)
+		if (!node.ready && node.lazy.length === 0 && node.watchers.length > 0)
 			result.push(base);
 		for (var k in node.children) {
 			var c = node.children[k];
@@ -638,7 +640,10 @@ function newScope (parent, parentNS, rootNS, globalNS) {
 		
 		var execute = function () {
 			this.require(args.dependencies, args.hiddenDependencies, function () {
-				arguments[arguments.length - 1].ns = ns;
+                var _arguments = [];
+                for (var a = 0; a < arguments.length; ++a)
+                    _arguments.push(arguments[a]);
+                _arguments[_arguments.length - 1].ns = ns;
 				if (this.options.compile) {
 					var params = [];
 					for (var i = 0; i < argmts.length; ++i)
@@ -658,7 +663,7 @@ function newScope (parent, parentNS, rootNS, globalNS) {
 						}, this);
 					}
 				}
-				var result = this.options.compile ? {} : args.callback.apply(args.context || this, arguments);
+				var result = this.options.compile ? {} : args.callback.apply(args.context || this, _arguments);
 				callback.call(this, ns, result);
 			}, this);
 		};
@@ -754,10 +759,7 @@ function newScope (parent, parentNS, rootNS, globalNS) {
 		resolve: function (namespaceLocator) {
 			var parts = namespaceLocator.split(":");
 			if (parts.length == 1) {
-				return {
-					namespace: privateNamespace,
-					path: parts[0]
-				};
+                throw ("The locator '" + parts[0] + "' requires a namespace.");
 			} else {
 				var binding = bindings[parts[0]];
 				if (!binding)
@@ -962,7 +964,7 @@ var Public = Helper.extend(rootScope, (function () {
 return {
 		
 	guid: "4b6878ee-cb6a-46b3-94ac-27d91f58d666",
-	version: '0.0.13',
+	version: '0.0.19',
 		
 	upgrade: Attach.upgrade,
 	attach: Attach.attach,
@@ -1004,8 +1006,8 @@ Public.exports();
 	return Public;
 }).call(this);
 /*!
-betajs-codemirror - v1.0.7 - 2017-01-15
-Copyright (c) Victor Lingenthal
+betajs-codemirror - v1.0.7 - 2019-10-11
+Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
 
@@ -1017,7 +1019,8 @@ Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "1.0.7"
+    "version": "1.0.7",
+    "datetime": 1570846242189
 };
 });
 Scoped.assumeVersion('base:version', '~1.0.96');
@@ -1036,7 +1039,19 @@ Scoped.define("module:Codemirror", [
 			
 			attrs : {
 				language: "html",
-				value: ""
+				value: "",
+				theme: "",
+				readonly: false,
+				"auto-refresh": false,
+				trim: false
+			},
+			types: {
+				"language": "string",
+				"value": "string",
+				"theme": "string",
+				"readonly": "boolean",
+				"auto-refresh": "boolean",
+				"trim": "boolean"
 			},
 			
 			create : function() {
@@ -1044,7 +1059,7 @@ Scoped.define("module:Codemirror", [
 					this.set("value", this.initialContent);
 				if (this.get("trim") !== undefined)
 					this.set("value", Strings.nltrim(this.get("value")));
-				this.set("readonly", false);
+				// this.set("readonly", false);
 				this.on("change:readonly", function(value) {
 					this.codemirror.setOption("readOnly", value);
 				}, this);
@@ -1098,7 +1113,8 @@ Scoped.define("module:Codemirror", [
 							gutters : [ language.gutters,
 									"CodeMirror-linenumbers",
 									"CodeMirror-foldgutter" ],
-							lintWith : language.lint
+							lintWith : language.lint,
+							theme: this.get("theme")
 						});
 				this.codemirror.on("gutterClick", function(cm,
 						where) {

@@ -2,13 +2,13 @@
 	"name": "betajs-codemirror",
 	"version": "1.0.7",
 	"description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
-	"contributors": ["Victor Lingenthal"],
+	"contributors": ["Victor Lingenthal", "Oliver Friedmann", "Ibnu Triyono"],
 	"devDependencies": {
         "lodash": "",
 		"grunt": "",
 		"grunt-contrib-jshint": "",
 		"grunt-contrib-concat": "",
-		"grunt-contrib-uglify": "",
+		"grunt-contrib-uglify": "^4.0.0",
 		"grunt-contrib-clean": "",
 		"grunt-contrib-cssmin": "",
 		"grunt-preprocess": "",
@@ -27,6 +27,10 @@
 		"type": "git",
 		"url": "git://github.com/betajs/betajs-codemirror.git"
 	},
+	"scripts": {
+		"relink": "npm link betajs && npm link betajs-compile && npm link betajs-scoped && npm link betajs-browser && npm link betajs-dynamics",
+		"reinstall": "rm -f package-lock.json && rm -rf node_modules && npm i && npm run relink"
+	},
 	"meta": {
 		"guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
 		"installdoc": "docsrc/common/install.md",
@@ -34,7 +38,8 @@
 		"badges": {
 			"codeclimate": true,
 			"travis": false,
-			"npm": true
+			"npm": true,
+			"gitter": true
 		},
 		"weakDependencies": {
 			"betajs-scoped": "https://github.com/betajs/betajs-scoped"
