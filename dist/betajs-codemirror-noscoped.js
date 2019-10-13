@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.8 - 2019-10-12
+betajs-codemirror - v1.0.9 - 2019-10-13
 Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
@@ -12,8 +12,8 @@ Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "1.0.8",
-    "datetime": 1570936093968
+    "version": "1.0.9",
+    "datetime": 1570962701758
 };
 });
 Scoped.assumeVersion('base:version', '~1.0.96');

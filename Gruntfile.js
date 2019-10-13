@@ -34,13 +34,14 @@ module.exports = function(grunt) {
     /* Markdown Files */
 	.readmeTask()
     .licenseTask()
+	.autoincreasepackageTask(null, "package-source.json")
     
     /* Documentation */
     .docsTask();
 
 	grunt.initConfig(gruntHelper.config);	
 
-	grunt.registerTask('default', ['package', 'readme', 'license', 'codeclimate', 'scopedclosurerevision', 'concat-scoped', 'uglify-noscoped', 'uglify-scoped', 'concat-css', 'cssminify']);
+	grunt.registerTask('default', ['autoincreasepackage', 'package', 'readme', 'license', 'codeclimate', 'scopedclosurerevision', 'concat-scoped', 'uglify-noscoped', 'uglify-scoped', 'concat-css', 'cssminify']);
 	grunt.registerTask('check', ['lint', 'csslinter']);
 
 };
