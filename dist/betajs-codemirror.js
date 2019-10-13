@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.8 - 2019-10-11
+betajs-codemirror - v1.0.8 - 2019-10-12
 Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
@@ -1006,7 +1006,7 @@ Public.exports();
 	return Public;
 }).call(this);
 /*!
-betajs-codemirror - v1.0.8 - 2019-10-11
+betajs-codemirror - v1.0.8 - 2019-10-12
 Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
@@ -1020,7 +1020,7 @@ Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
     "version": "1.0.8",
-    "datetime": 1570846515949
+    "datetime": 1570936093968
 };
 });
 Scoped.assumeVersion('base:version', '~1.0.96');
@@ -1057,13 +1057,13 @@ Scoped.define("module:Codemirror", [
 			create : function() {
 				if (this.initialContent)
 					this.set("value", this.initialContent);
-				if (this.get("trim") !== undefined)
+				if (this.get("trim") !== false)
 					this.set("value", Strings.nltrim(this.get("value")));
 				// this.set("readonly", false);
 				this.on("change:readonly", function(value) {
 					this.codemirror.setOption("readOnly", value);
 				}, this);
-				if (this.get("auto-refresh") !== undefined) {
+				if (this.get("auto-refresh") !== false) {
 					this.auto_destroy(new Timers.Timer({
 						delay : 100,
 						fire : function () {
