@@ -30,13 +30,13 @@ Scoped.define("module:Codemirror", [
 			create : function() {
 				if (this.initialContent)
 					this.set("value", this.initialContent);
-				if (this.get("trim") !== undefined)
+				if (this.get("trim") !== false)
 					this.set("value", Strings.nltrim(this.get("value")));
 				// this.set("readonly", false);
 				this.on("change:readonly", function(value) {
 					this.codemirror.setOption("readOnly", value);
 				}, this);
-				if (this.get("auto-refresh") !== undefined) {
+				if (this.get("auto-refresh") !== false) {
 					this.auto_destroy(new Timers.Timer({
 						delay : 100,
 						fire : function () {
