@@ -32,6 +32,7 @@ Scoped.define("module:Codemirror", [
 					this.set("value", this.initialContent);
 				if (this.get("trim") !== false)
 					this.set("value", Strings.nltrim(this.get("value")));
+				this.set("theme", (String(this.get("theme") == ""))?"default":this.get("theme"));
 				// this.set("readonly", false);
 				this.on("change:readonly", function(value) {
 					this.codemirror.setOption("readOnly", value);
