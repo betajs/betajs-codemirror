@@ -1,59 +1,63 @@
 {
-	"name": "betajs-codemirror",
-	"version": "1.0.9",
-	"description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
-	"contributors": ["Victor Lingenthal", "Oliver Friedmann", "Ibnu Triyono"],
-	"devDependencies": {
+    "name": "betajs-codemirror",
+    "version": "1.0.10",
+    "description": "BetaJS-Codemirror is a Codemirror Plugin for the BetaJS Framework.",
+    "contributors": [
+        "Victor Lingenthal",
+        "Oliver Friedmann",
+        "Ibnu Triyono"
+    ],
+    "devDependencies": {
         "lodash": "",
-		"grunt": "",
-		"grunt-contrib-jshint": "",
-		"grunt-contrib-concat": "",
-		"grunt-contrib-uglify": "^4.0.0",
-		"grunt-contrib-clean": "",
-		"grunt-contrib-cssmin": "",
-		"grunt-preprocess": "",
-		"grunt-closure-tools": "",
-		"grunt-jsdoc": "",
-		"grunt-template": "",
-		"grunt-contrib-csslint": "",
-	    "betajs-scoped": "~0.0.13",
-	    "betajs-compile": "~0.0.28",
-	    "betajs": "~1.0.96",
-	    "betajs-browser": "~1.0.61",
-	    "betajs-dynamics": "~0.0.83"
-	},
-	"main": "dist/betajs-codemirror.js",
-	"repository": {
-		"type": "git",
-		"url": "git://github.com/betajs/betajs-codemirror.git"
-	},
-	"scripts": {
-		"relink": "npm link betajs && npm link betajs-compile && npm link betajs-scoped && npm link betajs-browser && npm link betajs-dynamics",
-		"reinstall": "rm -f package-lock.json && rm -rf node_modules && npm i && npm run relink"
-	},
-	"meta": {
-		"guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-		"installdoc": "docsrc/common/install.md",
-		"summarydoc": "docsrc/common/summary.md",
-		"badges": {
-			"codeclimate": true,
-			"travis": false,
-			"npm": true,
-			"gitter": true
-		},
-		"weakDependencies": {
-			"betajs-scoped": "https://github.com/betajs/betajs-scoped"
-		},
-		"dependencies": {
-			"betajs": "https://github.com/betajs/betajs",
-			"betajs-browser": "https://github.com/betajs/betajs-browser",
-			"betajs-dynamics": "https://github.com/betajs/betajs-dynamics"
-		},
-		"cdn": {
-			"betajs-codemirror.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror.js",
-			"betajs-codemirror.min.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror.min.js",
-			"betajs-codemirror-noscoped.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror-noscoped.js",
-			"betajs-codemirror-noscoped.min.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror-noscoped.min.js"
-		}
-	}
+        "grunt": "",
+        "grunt-contrib-jshint": "",
+        "grunt-contrib-concat": "",
+        "grunt-contrib-uglify": "^4.0.0",
+        "grunt-contrib-clean": "",
+        "grunt-contrib-cssmin": "",
+        "grunt-preprocess": "",
+        "grunt-closure-tools": "",
+        "grunt-jsdoc": "",
+        "grunt-template": "",
+        "grunt-contrib-csslint": "",
+        "betajs-scoped": "~0.0.13",
+        "betajs-compile": "~0.0.28",
+        "betajs": "~1.0.96",
+        "betajs-browser": "~1.0.61",
+        "betajs-dynamics": "~0.0.83"
+    },
+    "main": "dist/betajs-codemirror.js",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/betajs/betajs-codemirror.git"
+    },
+    "scripts": {
+        "relink": "npm link betajs && npm link betajs-compile && npm link betajs-scoped && npm link betajs-browser && npm link betajs-dynamics",
+        "reinstall": "rm -f package-lock.json && rm -rf node_modules && npm i && npm run relink"
+    },
+    "meta": {
+        "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
+        "installdoc": "docsrc/common/install.md",
+        "summarydoc": "docsrc/common/summary.md",
+        "badges": {
+            "codeclimate": true,
+            "travis": false,
+            "npm": true,
+            "gitter": true
+        },
+        "weakDependencies": {
+            "betajs-scoped": "https://github.com/betajs/betajs-scoped"
+        },
+        "dependencies": {
+            "betajs": "https://github.com/betajs/betajs",
+            "betajs-browser": "https://github.com/betajs/betajs-browser",
+            "betajs-dynamics": "https://github.com/betajs/betajs-dynamics"
+        },
+        "cdn": {
+            "betajs-codemirror.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror.js",
+            "betajs-codemirror.min.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror.min.js",
+            "betajs-codemirror-noscoped.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror-noscoped.js",
+            "betajs-codemirror-noscoped.min.js": "http://cdn.rawgit.com/betajs/betajs-codemirror/master/dist/betajs-codemirror-noscoped.min.js"
+        }
+    }
 }

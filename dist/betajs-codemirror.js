@@ -1,10 +1,10 @@
 /*!
-betajs-codemirror - v1.0.9 - 2019-10-13
+betajs-codemirror - v1.0.10 - 2020-11-10
 Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
 /** @flow **//*!
-betajs-scoped - v0.0.19 - 2018-04-07
+betajs-scoped - v0.0.22 - 2019-10-23
 Copyright (c) Oliver Friedmann
 Apache-2.0 Software License.
 */
@@ -242,13 +242,15 @@ return {
 	 */
 	upgrade: function (namespace/* : ?string */) {
 		var current = Globals.get(namespace || Attach.__namespace);
-		if (current && Helper.typeOf(current) == "object" && current.guid == this.guid && Helper.typeOf(current.version) == "string") {
+		if (current && Helper.typeOf(current) === "object" && current.guid === this.guid && Helper.typeOf(current.version) === "string") {
+			if (this.upgradable === false || current.upgradable === false)
+				return current;
 			var my_version = this.version.split(".");
 			var current_version = current.version.split(".");
 			var newer = false;
 			for (var i = 0; i < Math.min(my_version.length, current_version.length); ++i) {
 				newer = parseInt(my_version[i], 10) > parseInt(current_version[i], 10);
-				if (my_version[i] != current_version[i]) 
+				if (my_version[i] !== current_version[i])
 					break;
 			}
 			return newer ? this.attach(namespace) : current;				
@@ -267,7 +269,7 @@ return {
 		if (namespace)
 			Attach.__namespace = namespace;
 		var current = Globals.get(Attach.__namespace);
-		if (current == this)
+		if (current === this)
 			return this;
 		Attach.__revert = current;
 		if (current) {
@@ -312,7 +314,7 @@ return {
 	 */
 	exports: function (mod, object, forceExport) {
 		mod = mod || (typeof module != "undefined" ? module : null);
-		if (typeof mod == "object" && mod && "exports" in mod && (forceExport || mod.exports == this || !mod.exports || Helper.isEmpty(mod.exports)))
+		if (typeof mod == "object" && mod && "exports" in mod && (forceExport || mod.exports === this || !mod.exports || Helper.isEmpty(mod.exports)))
 			mod.exports = object || this;
 		return this;
 	}	
@@ -828,7 +830,7 @@ function newScope (parent, parentNS, rootNS, globalNS) {
 		
 		
 		/**
-		 * Extends a potentiall existing name space once a list of name space locators is available.
+		 * Extends a potentially existing name space once a list of name space locators is available.
 		 * 
 		 * @param {string} namespaceLocator the name space that is to be defined
 		 * @param {array} dependencies a list of name space locator dependencies (optional)
@@ -964,7 +966,9 @@ var Public = Helper.extend(rootScope, (function () {
 return {
 		
 	guid: "4b6878ee-cb6a-46b3-94ac-27d91f58d666",
-	version: '0.0.19',
+	version: '0.0.22',
+
+	upgradable: true,
 		
 	upgrade: Attach.upgrade,
 	attach: Attach.attach,
@@ -1006,7 +1010,7 @@ Public.exports();
 	return Public;
 }).call(this);
 /*!
-betajs-codemirror - v1.0.9 - 2019-10-13
+betajs-codemirror - v1.0.10 - 2020-11-10
 Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
@@ -1019,8 +1023,8 @@ Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "1.0.9",
-    "datetime": 1570962701758
+    "version": "1.0.10",
+    "datetime": 1605065594098
 };
 });
 Scoped.assumeVersion('base:version', '~1.0.96');
@@ -1059,6 +1063,7 @@ Scoped.define("module:Codemirror", [
 					this.set("value", this.initialContent);
 				if (this.get("trim") !== false)
 					this.set("value", Strings.nltrim(this.get("value")));
+				this.set("theme", (String(this.get("theme") == ""))?"default":this.get("theme"));
 				// this.set("readonly", false);
 				this.on("change:readonly", function(value) {
 					this.codemirror.setOption("readOnly", value);

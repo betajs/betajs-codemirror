@@ -1,5 +1,5 @@
 /*!
-betajs-codemirror - v1.0.9 - 2019-10-13
+betajs-codemirror - v1.0.10 - 2020-11-10
 Copyright (c) Victor Lingenthal,Oliver Friedmann,Ibnu Triyono
 Apache-2.0 Software License.
 */
@@ -12,8 +12,8 @@ Scoped.binding('dynamics', 'global:BetaJS.Dynamics');
 Scoped.define("module:", function () {
 	return {
     "guid": "ae5c3c39-efda-4c9a-a52f-d46fd494c9e0",
-    "version": "1.0.9",
-    "datetime": 1570962701758
+    "version": "1.0.10",
+    "datetime": 1605065594098
 };
 });
 Scoped.assumeVersion('base:version', '~1.0.96');
@@ -52,6 +52,7 @@ Scoped.define("module:Codemirror", [
 					this.set("value", this.initialContent);
 				if (this.get("trim") !== false)
 					this.set("value", Strings.nltrim(this.get("value")));
+				this.set("theme", (String(this.get("theme") == ""))?"default":this.get("theme"));
 				// this.set("readonly", false);
 				this.on("change:readonly", function(value) {
 					this.codemirror.setOption("readOnly", value);
